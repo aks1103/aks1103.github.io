@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>1&period; General Notes</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p><strong>Graph Algorithms</strong><br>
+<strong>Name</strong>: Ankit Kumar Singh <strong>GaTech ID</strong>: asingh821</p>
+<hr>
+<ul>
+<li><a href="#1-general-notes">1. General Notes</a>
+<ul>
+<li><a href="#11-depth-first-search">1.1. Depth first search</a></li>
+<li><a href="#12-strongly-connected-components">1.2. Strongly connected components</a></li>
+<li><a href="#13-breadth-first-search">1.3. Breadth first search</a></li>
+<li><a href="#14-dijkstra-algorithm">1.4. Dijkstra algorithm</a></li>
+<li><a href="#15-bellman-ford">1.5. Bellman ford</a></li>
+</ul>
+</li>
+<li><a href="#2-common-problems">2. Common Problems</a></li>
+<li><a href="#3-textbook-solutions">3. Textbook solutions</a></li>
+</ul>
+<h1 id="1-general-notes">1. General Notes</h1>
+<p><strong>Representation</strong>: Adajency list and adacency matrix.</p>
+<p><strong>Traversal</strong>: BFS, DFS</p>
+<p><strong>Search</strong>: BFS, DFS,</p>
+<h2 id="11-depth-first-search">1.1. Depth first search</h2>
+<p>DFS solve the reachablity problem, can help detect cycles, find directed
+path, topological sorting, connected components, solve bipartitedness or
+periodic cycle problem. In below, previsit and postvisit functions can
+help in performing some actions at first discovery or at finish time of
+DFS.</p>
+<pre><code>G = (V, E) is a Graph, v in V visited(u) is set to true for all nodes reachable from v visited(v) = true 
+previsit(v) 
+if not visited\[u\] :
+    explore(G, u) 
+postvisit(v)
+</code></pre>
+<p>::: algorithm
+::: algorithmic
+visited[v] = false if not visited(v) : explore(G, v)
+:::
+:::</p>
+<p>Each explore call discovers a new connected component. We can mark the
+cc number during previst call. We can also mark three colors White, Grey
+and Black, where white indicates undiscovered vertex, grey is in
+frontier and We can also mark the previsit and postvisit numbers. There
+are 2 type of edges in the undirected graph case, tree edge and back
+edge. For tree edge the [pre(u), post(u)] contains [pre(v),
+post[v]] else they are disjoint.</p>
+<p>For the directed case, there are 4 types of edges.</p>
+<ul>
+<li>
+<p>Tree edges (u, v): pre(u) &lt; pre(v) &lt; post(v) &lt; post(u)</p>
+</li>
+<li>
+<p>Back edges (u, v): pre(v) &lt; pre(u) &lt; post(u) &lt; post(v)</p>
+</li>
+<li>
+<p>Forward edges(u, v) : pre(u) &lt; pre(v) &lt; post(v) &lt; post(u)</p>
+</li>
+<li>
+<p>Cross edges (u, v): pre(v) &lt; post(v) &lt; pre(u) &lt; pre(u)</p>
+</li>
+</ul>
+<p>A directed graph is a DAG iff DFS discovers a back edge. If there is no
+back edge i.e its a DAG then every edge leads to a vertex with lower
+post order number. Hence the nodes of the graph can be ordered in this
+sense. The node with the hightest post order number is the source vertex
+and one with the lowest post order number is the Every DAG will have
+atleast one source and one sink.</p>
+<h2 id="12-strongly-connected-components">1.2. Strongly connected components</h2>
+<p>SCC is when is the sub graph such that all pair of nodes are connected.
+Every directed graph is a DAG of its strongly connected components. The
+node that recieves the highest post order number is in the source SCC.
+So the highest post order number of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>G</mi><mi>C</mi></msup></mrow><annotation encoding="application/x-tex">G^{C}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span></span></span></span></span></span></span></span></span></span> is the sink vertex of G. So
+we can keep on exploring the G in decreasing order of post order number
+of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>G</mi><mo>:</mo></msup><mi>C</mi></mrow><annotation encoding="application/x-tex">G^:{C}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mrel mtight">:</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span></span> and hence removing sink components one by one.</p>
+<h2 id="13-breadth-first-search">1.3. Breadth first search</h2>
+
+<h2 id="14-dijkstra-algorithm">1.4. Dijkstra algorithm</h2>
+
+<h2 id="15-bellman-ford">1.5. Bellman ford</h2>
+
+<h1 id="2-common-problems">2. Common Problems</h1>
+<h1 id="3-textbook-solutions">3. Textbook solutions</h1>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

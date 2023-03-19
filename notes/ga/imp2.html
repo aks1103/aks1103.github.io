@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Graduate Algorithms</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="canonical" href="http://html5-templates.com/" />
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="stylesheet" href="../style.css">
+        <script src="../js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+		<div class="wrapAll clearfix">
+			<div class="sidebar">
+				<div class="logo">
+					<a href="/"><img src='../img/logo.png' alt="logo"></a>
+				</div>
+				<div class="navigation">
+					<ul>
+						<li><a href="https://aks1103.github.io">Portfolio page</a></li>
+						<li><a href="../../notes/index.html">Algorithm list</a></li>
+						<li><a href="../../notes/links.html">Important Links</a></li>
+						<li><a href="../../notes/ga/index.html">Parent page</a></li>
+					</ul>
+				</div>
+
+			
+			</div>
+
+			<div class="mainsection">
+				<div class="headerLinks">
+					<a href="https://aks1103.github.io"><b>Author:</b> Ankit Kumar Singh <b>Mail Id:</b> asingh821</a>
+				</div>
+				<div class="tabs clearfix">
+					<div class="tabsLeft">
+						<ul>
+							<li><a href="#" class="active">Article</a></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="article">
+					<h1>Important algorithms</h1>
+					<p>This covers some of the well know algorithms based on the survey.</p>
+
+					<div class="contentsPanel">
+						<div class="contentsHeader">Subtopics</div>
+						<ul>
+							<li><span>1</span><a href="#sprime">Sieve for Prime</a></li>
+							<li><span>2</span><a href="#fenwick">Fenwick Tree</a></li>
+							<li><span>3</span><a href="#ccs">Maximum bipartite algorithm</a></li>
+							<li><span>4</span><a href="#ccs">Persistent Segment tree</a></li>
+							<li><span>5</span><a href="#ccs">Suffix arrays</a></li>
+							<li><span>6</span><a href="#ccs">Articulation Points</a></li>
+							<li><span>7</span><a href="#ccs">Bridges in Graph</a></li>
+							<li><span>8</span><a href="#ccs">Cycle count and size</a></li>
+							<li><span>9</span><a href="#ccs">MO algorithm</a></li>
+							<li><span>10</span><a href="#ccs">SQRT algorithm</a></li>
+							<li><span>11</span><a href="#ccs">Segment Tree (Lazy)</a></li>
+							<li><span>12</span><a href="#ccs">Trie</a></li>
+							<li><span>13</span><a href="#kmp">KMP</a></li>
+						</ul>
+					</div>
+					
+					<h2 id="sprime">Sieve for Prime</h2>
+                    <p></p>
+<pre><code>
+SieveOfEratosthenes(n)
+    prime be array of size n and set to true
+    for (int p=2; p*p<=n; p++)
+        if (prime[p] == true)
+            for (int i=p*p; i<=n; i += p)
+            prime[i] = false;
+</code></pre>
+
+
+
+
+<h2 id="fenwick">Fenwick Tree</h2>
+<p></p>
+
+					
+				</div>
+			</div>		
+		</div>
+		
+		
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+        <script src="../script.js"></script>
+
+
+    </body>
+</html>

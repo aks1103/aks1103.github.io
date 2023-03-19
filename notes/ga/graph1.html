@@ -1,0 +1,402 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Graduate Algorithms</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="canonical" href="http://html5-templates.com/" />
+	<link rel="apple-touch-icon" href="apple-touch-icon.png">
+	<!-- Place favicon.ico in the root directory -->
+	<link rel="stylesheet" href="../style.css">
+	<script src="../js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+	<!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+	<div class="wrapAll clearfix">
+		<div class="sidebar">
+			<div class="logo">
+				<a href="/"><img src='../img/logo.png' alt="logo"></a>
+			</div>
+			<div class="navigation">
+				<ul>
+					<li><a href="https://aks1103.github.io">Portfolio page</a></li>
+					<li><a href="../../notes/index.html">Algorithm list</a></li>
+					<li><a href="../../notes/links.html">Important Links</a></li>
+					<li><a href="../../notes/ga/index.html">Parent page</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="mainsection">
+			<div class="headerLinks">
+				<a href="https://aks1103.github.io"><b>Author:</b> Ankit Kumar Singh <b>Mail Id:</b> asingh821</a>
+			</div>
+			<div class="tabs clearfix">
+				<div class="tabsLeft">
+					<ul>
+						<li><a href="#" class="active">Article</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="article">
+				<h1>Graph Algorithms - I</h1>
+				<p>TBD: Cover the implementation in Cpp part here. Ajacency list, Adjancy matrix and application of the
+					Graph. </p>
+
+				<div class="contentsPanel">
+					<div class="contentsHeader">Subtopics</div>
+					<ul>
+						<li><span>1</span><a href="#dfs">DFS</a></li>
+						<li><span>3</span><a href="#ts">Topological sorting, CC and Cycles</a></li>
+						<li><span>4</span><a href="#">Strongly connected components and 2SAT</a></li>
+						<li><span>5</span><a href="#">BFS and Shortest path</a></li>
+						<li><span>5</span><a href="#">Prims Algorithm</a></li>
+						<li><span>5</span><a href="#">Krushkal Algorithm</a></li>
+						<li><span>5</span><a href="#">Dijkstra's Algorithm</a></li>
+						<li><span>5</span><a href="#">Bellman Ford</a></li>
+						<li><span>5</span><a href="#">Floyd Warshall</a></li>
+						<li><span>8</span><a href="#">Common Problem statement</a></li>
+						<li><span>8</span><a href="#">Complexity Cheat sheet</a></li>
+					</ul>
+				</div>
+
+				<h2>Depth first search</h2>
+				<p>DFS solve the reachablity problem, can help detect cycles, find directed
+					path, topological sorting, connected components, solve bipartitedness or
+					periodic cycle problem. In below, previsit and postvisit functions can
+					help in performing some actions at first discovery or at finish time of
+					DFS.</p>
+
+				<strong>Algorithm</strong>
+				<pre>
+<code>
+Explore(G, s)
+	G = (V, E) is a Graph 
+	visited(s) = true 
+	previsit(s) 
+	for all nodes t reachable from s 
+		if not visited[t]:
+			Explore(G, t) 
+	postvisit(s)
+</code>
+</pre>
+
+				<pre>
+<code>
+DFS(G)
+	G = (V, E) is a Graph, 
+	for each u in V visited(u) is set to true 
+	for all nodes in G.V :
+		if not visited[u] :
+			Explore(G, u) 
+</code>
+</pre>
+
+				<p>Each explore call discovers a new connected component. We can mark the
+					cc number during previst call. We can also mark three colors White, Grey
+					and Black, where white indicates undiscovered vertex, grey is in
+					frontier and We can also mark the previsit and postvisit numbers. There
+					are 2 type of edges in the undirected graph case, tree edge and back
+					edge. For tree edge the [pre(u), post(u)] contains [pre(v),
+					post[v]] else they are disjoint.</p>
+				<p>For the directed case, there are 4 types of edges.</p>
+				<ul>
+					<ol>
+						<p>Tree edges (u, v): pre(u) &lt; pre(v) &lt; post(v) &lt; post(u)</p>
+					</ol>
+					<ol>
+						<p>Back edges (u, v): pre(v) &lt; pre(u) &lt; post(u) &lt; post(v)</p>
+					</ol>
+					<ol>
+						<p>Forward edges(u, v) : pre(u) &lt; pre(v) &lt; post(v) &lt; post(u)</p>
+					</ol>
+					<ol>
+						<p>Cross edges (u, v): pre(v) &lt; post(v) &lt; pre(u) &lt; pre(u)</p>
+					</ol>
+				</ul>
+				<p>A directed graph is a DAG iff DFS discovers a back edge. If there is no
+					back edge i.e its a DAG then every edge leads to a vertex with lower
+					post order number. Hence the nodes of the graph can be ordered in this
+					sense. The node with the hightest post order number is the source vertex
+					and one with the lowest post order number is the Every DAG will have
+					atleast one source and one sink.</p>
+
+
+				<strong>Running time</strong>
+				O(n+m), where n is number of vertices and m is number of edges.
+				<br>
+
+
+				<h2 id="ts">Topological sorting, CC and Cycles</h2>
+				<p>Topological sorting is representing nodes of Graph in sorted order such that the edges goes from left
+					to right only.Every DAG (and only DAGs) can be sorted in Topological order. In a DAG there is always
+					a source and sink vertex, we can step by step remove either source or sink and recursively find this
+					order. Also the post order numbers calculated in DFS also indicates the topological ordering.
+					Highest post order number indicates that the vertex is source vertex and so on.
+				</p>
+
+
+				<p>Back edge in directed or undirected graph indicates cycle.</p>
+
+				<p>Each explore cycle finds a new Connected component in DFS for undirected graph.</p>
+
+				<h2 id="sc">Strongly connected components and 2SAT</h2>
+
+				<p>SCC is the sub graph such that all pair of nodes are connected. Pair of nodes are called connected if
+					there is path from
+					Every directed graph is a DAG of its strongly connected components. The
+					node that recieves the highest post order number is in the source SCC.
+					So the highest post order number of </p>
+
+
+				<h2 id="bfs">BFS and Shortest path</h2>
+				<p>Distance between two nodes is length of the shortest path between 2
+					nodes. DFS donot find the shortest path. We can use BFS to get the
+					shortest path tree in unweighted graph. Again we can augments BFS, to
+					include the parent, dist, color code (W, G, B) to idenify forntier.</p>
+				<p>
+<pre><code>
+BFS(G, s)
+	for all u in G.V: 
+		dist(u) = INF
+	pick a initial node s,
+	set dist(s) = 0
+	Q = queue(s)
+	u = eject(Q)
+	inject(Q, v)
+	dist[v] = dist[u] + 1
+</code></pre>
+					
+				</p>
+
+				<h2 id="prim">Prim's Algorithm</h2>
+				<h2 id="prim">Krushkal's Algorithm</h2>
+
+				<h2 id="dijjstras">Dijkstra's Algorithm</h2>
+				<p>BFS won't find shortest distance on weighted graph. We can use a slight
+					variation to it. Dijktras algorithm is like BFS but instead of using
+					queue it uses priority queue with keys which keeps in account the edge
+					weights.</p>
+				<p>
+					<code>
+<pre>
+Dijkstra(G, s)
+	for all u in G.V: 
+		dist(u) = INF, 
+		prev(u) = NIL 
+	set dist(s) = 0 
+	H = makequeue(V) with distance value as keys 
+	u = deletemin(Q) 
+	dist[v] = dist[u] + l(u, v) 
+	prev[v] = u decreaseKey(H, v)
+</pre>
+</code>
+
+				<p>The above algorithm uses Binary heap (or can be arrays, d-ary heap or
+					fibonacci heap) for priotity queue implementation. Binary heap is a
+					complete binary tree with heap property (root is either greater or
+					smaller than the childs). Following operations of priority queue is used
+					in the algorithm:</p>
+				<ul>
+					<ol>
+						<p>Insert (): Add a new element to the set.</p>
+					</ol>
+					<ol>
+						<p>Decrease-Key (H, ): accomodate decrease in key value for particular
+							element.</p>
+					</ol>
+					<ol>
+						<p>Delete-Min: Return the element with the smallest key and remove it
+							from the set.</p>
+					</ol>
+					<ol>
+						<p>Make-queue: Build priority queue using the given elements and key
+							values.</p>
+					</ol>
+				</ul>
+
+				<p>For binary heap being a array can be implemented as an array of size
+					2n - 1 for n elements. with parent of j being j/2 and childs being 2i +
+					1 and 2i + 2. Each heap operation can be implemented as below</p>
+
+				<ul>
+					<ol>
+						<p>Insert: Place the new element at the bottom of the tree and let it
+							bubble. Then if it is smaller than its parent, swap and keep doing
+							it repeatedly.</p>
+					</ol>
+					<ol>
+						<p>Decrease key: decrease the key and heapify.</p>
+					</ol>
+					<ol>
+						<p>Deletemin: swap root with lowest element, remove last element and
+							let root sift down. if it is bigger than any child, swap it with min
+							of those and repeat.</p>
+					</ol>
+				</ul>
+
+				<h2 id="bellman">Bellman Ford's Algorithm</h2>
+				<p>Bellman ford can take care of the negative cycles. To detect negative
+					cycles we can run the algorithm one more time and see if the weight
+					changes.</p>
+				<pre><code>
+Bellman(G)
+	dist(u) = INF 
+	prev(u) = NIL 
+	dist(s) = 0 
+	dist(v) = min(dist(u), l(u, v))
+</code></pre>
+
+				<h2 id="floyd">Floyd Warshall's Algorithm</h2>
+				<h2 id="cps">Common Problem statement</h2>
+				<h2 id="ccs">Complexity Cheat sheet</h2>
+
+				<table style="text-align:center">
+					<tbody>
+						<tr>
+							<th>Problem</th>
+							<th>Algorithm</th>
+							<th>Time</th>
+							<th>Space</th>
+						</tr>
+						<tr>
+							<td>Path Existence</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>Shortest path (fewest edges)</td>
+							<td>BFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>Detect Cycle</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>Directed Path</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>Shortest Directed Path (fewest edges)</td>
+							<td>BFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>Directed cycle</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>Topological sort</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+						<tr>
+							<td>bipartitedness / odd cycle</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+
+						<tr>
+							<td>connected components</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+
+						<tr>
+							<td>strong components</td>
+							<td>Kosaraju</td>
+							<td>E + V</td>
+							<td>V</td>
+						</tr>
+
+						<tr>
+							<td>eulerian cycle (un)directed</td>
+							<td>DFS</td>
+							<td>E + V</td>
+							<td>E + V</td>
+						</tr>
+
+						<tr>
+							<td>transitive closure</td>
+							<td>DFS</td>
+							<td>V(V+E)</td>
+							<td>V^2</td>
+						</tr>
+
+						<tr>
+							<td>minimum spanning tree</td>
+							<td>Krushkal</td>
+							<td>ElogV</td>
+							<td>E + V</td>
+						</tr>
+
+						<tr>
+							<td>minimum spanning tree</td>
+							<td>Prims</td>
+							<td>ElogV</td>
+							<td>E + V</td>
+						</tr>
+
+						<tr>
+							<td>single source shortest path</td>
+							<td>Dijktras</td>
+							<td>ElogV</td>
+							<td>V</td>
+						</tr>
+
+						<tr>
+							<td>single source shortest path</td>
+							<td>Bellman ford</td>
+							<td>V(V+E)</td>
+							<td>V</td>
+						</tr>
+
+						<tr>
+							<td>all pair shortest paths</td>
+							<td>Floyd Warshall</td>
+							<td>V^3</td>
+							<td>V^2</td>
+						</tr>
+
+						<tr>
+							<td>maxflow-mincut</td>
+							<td>Ford Fulkerson</td>
+							<td>EV(E+V)</td>
+							<td>V</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+	<script src="../script.js"></script>
+
+
+</body>
+
+</html>

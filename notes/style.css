@@ -7,6 +7,11 @@ html {
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 }
+
+.wikitable {
+    
+}
+
 body {
 	margin: 0;
 }
@@ -138,11 +143,15 @@ optgroup {
 	font-weight: bold;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+	background-color: #f8f9fa;
+    color: #202122;
+    margin: 1em 0;
+    border: 1px solid #a2a9b1;
+    border-collapse: collapse;
 }
 td,th {
-	padding: 0;
+	border: 1px solid #a2a9b1;
+    padding: 0.2em 0.4em;
 }
 html {
 	color: #222;

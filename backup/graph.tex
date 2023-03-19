@@ -1,0 +1,222 @@
+% Contributions are much appreciated, in order to contribute to this project, head over to this repository:
+% https://github.com/bshramin/uofa-eng-assignment
+
+\documentclass[11pt,letterpaper]{article}
+\textwidth 6.5in
+\textheight 9.in
+\oddsidemargin 0in
+\headheight 0in
+\usepackage{graphicx}
+\usepackage{fancybox}
+\usepackage[utf8]{inputenc}
+\usepackage{epsfig,graphicx}
+\usepackage{multicol,pst-plot}
+\usepackage{pstricks}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{eucal}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\pagestyle{empty}
+\DeclareMathOperator{\tr}{Tr}
+\newcommand*{\op}[1]{\check{\mathbf#1}}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\braket}[2]{\langle #1 | #2 \rangle}
+\newcommand{\mean}[1]{\langle #1 \rangle}
+\newcommand{\opvec}[1]{\check{\vec #1}}
+\renewcommand{\sp}[1]{{\begin{split}#1\end{split}}}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{lipsum}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{algorithm,algorithmicx,algpseudocode}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+\usepackage{hyperref}
+
+\lstset{style=mystyle}
+
+\begin{document}
+\pagestyle{plain}
+ 
+\begin{center}
+\textbf{\large Graph Algorithms}\\
+\textbf{Name}: Ankit Kumar Singh
+\hspace{8cm}
+\textbf{GaTech ID}: asingh821
+\end{center}
+\hrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{General Notes}
+Representation: Adajency list and adacency matrix. 
+Traversal: BFS, DFS
+Search: BFS, DFS, 
+
+\subsection{Depth first search}
+DFS solve the reachablity problem, can help detect cycles, find directed path, topological sorting, connected components, solve bipartitedness or periodic cycle problem. In below, previsit and postvisit functions can help in performing some actions at first discovery or at finish time of DFS. 
+
+% \usepackage{algorithm,algorithmicx,algpseudocode}
+\begin{algorithm}
+	\floatname{algorithm}{Explore}
+	\algrenewcommand\algorithmicrequire{\textbf{Input: }}
+	\algrenewcommand\algorithmicensure{\textbf{Output: }}
+	\caption{}
+	\begin{algorithmic}[1]
+		\Require G = (V, E) is a Graph, v in V
+		\Ensure visited(u) is set to true for all nodes reachable from v
+		\State visited(v) = true
+		\State previsit(v)
+		\For{edge (v, u) in G[v].E}
+			\State if not visited[u] : explore(G, u)
+		\EndFor 
+		\State postvisit(v)
+	\end{algorithmic}
+\end{algorithm}
+
+
+% \usepackage{algorithm,algorithmicx,algpseudocode}
+\begin{algorithm}
+	\floatname{algorithm}{DFS}
+	\caption{}
+	\begin{algorithmic}[1]
+		\For{v in V}
+			\State visited[v] = false
+		\EndFor
+		\For{v in V}
+			\State if not visited(v) : explore(G, v)
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+
+Each explore call discovers a new connected component. We can mark the cc number during previst call. We can also mark three colors White, Grey and Black, where white indicates undiscovered vertex, grey is in frontier and We can also mark the previsit and postvisit numbers. There are 2 type of edges in the undirected graph case, tree edge and back edge. For tree edge the [pre(u), post(u)] contains [pre(v), post[v]] else they are disjoint. 
+
+For the directed case, there are 4 types of edges. 
+\begin{itemize}
+	\item Tree edges (u, v): pre(u) < pre(v) < post(v) < post(u)
+	\item Back edges (u, v): pre(v) < pre(u) < post(u) < post(v)
+	\item Forward edges(u, v) : pre(u) < pre(v) < post(v) < post(u)
+	\item Cross edges (u, v):  pre(v) < post(v) < pre(u) < pre(u)
+\end{itemize}
+
+A directed graph is a DAG iff DFS discovers a back edge. If there is no back edge i.e its a DAG then every edge leads to a vertex with lower post order number. Hence the nodes of the graph can be ordered in this sense. The node with the hightest post order number is the source vertex and one with the lowest post order number is the Every DAG will have atleast one source and one sink. 
+
+\subsection{Strongly connected components}
+SCC is when is the sub graph such that all pair of nodes are connected. Every directed graph is a DAG of its strongly connected components. The node that recieves the highest post order number is in the source SCC. So the highest post order number of $G^{C}$ is the sink vertex of G. So we can keep on exploring the G in decreasing order of post order number of $G^:{C}$ and hence removing sink components one by one. 
+
+
+\subsection{Breadth first search}
+Distance between two nodes is length of the shortest path between 2 nodes. DFS donot find the shortest path. We can use BFS to get the shortest path tree in unweighted graph. 
+Again we can augments BFS, to include the parent, dist, color code (W, G, B) to idenify forntier. 
+
+\begin{algorithm}
+	\floatname{algorithm}{Breadth first search}
+	\caption{}
+	\begin{algorithmic}[1]
+		\State for all u in G.V: dist(u) = INF
+		\State pick a initial node s, set dist(s) = 0
+		\State Q = queue(s)
+		\While{Q is not empty}
+			\State u = eject(Q)
+			\For{edge (u,v) in G[v].E}
+				\If{dist[v] = INF}
+					\State inject(Q, v)
+					\State dist[v] = dist[u] + 1
+				\EndIf
+			\EndFor
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Dijkstra algorithm}
+BFS won't find shortest distance on weighted graph. We can use a slight variation to it. Dijktras algorithm is like BFS but instead of using queue it uses priority queue with keys which keeps in account the edge weights. 
+
+\begin{algorithm}
+	\floatname{algorithm}{Dijkstra algorithm}
+	\caption{ (G, l, s)}
+	\begin{algorithmic}[1]
+		\State for all u in G.V: dist(u) = INF, prev(u) = NIL
+		\State set dist(s) = 0
+		\State H = makequeue(V) with distance value as keys
+		\While{H is not empty}
+			\State u = deletemin(Q)
+			\For{edge (u,v) in G[v].E}
+				\If{dist[v] > dist[u] + l(u, v)}
+					\State dist[v] = dist[u] + l(u, v)
+					\State prev[v] = u
+					\State decreaseKey(H, v)
+				\EndIf
+			\EndFor
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+The above algorithm uses Binary heap (or can be arrays, d-ary heap or fibonacci heap) for priotity queue implementation. Binary heap is a complete binary tree with heap property  (root is either greater or smaller than the childs). Following operations of priority queue is used in the algorithm:
+\begin{itemize}
+	\item Insert (): Add a new element to the set. 
+	\item Decrease-Key (H, ): accomodate decrease in key value for particular element. 
+	\item Delete-Min: Return the element with the smallest key and remove it from the set. 
+	\item Make-queue: Build priority queue using the given elements and key values. 
+\end{itemize}
+
+For binary heap being a array can be implemented as an array of size 2n - 1 for n elements. with parent of j being j/2 and childs being 2i + 1 and 2i + 2. Each heap operation can be implemented as below
+
+\begin{itemize}
+	\item Insert: Place the new element at the bottom of the tree and let it bubble. Then if it is smaller than its parent, swap and keep doing it repeatedly. 
+	\item Decrease key: decrease the key and heapify.
+	\item Deletemin: swap root with lowest element, remove last element and let root sift down. if it is bigger than any child, swap it with min of those and repeat. 
+\end{itemize}
+
+
+\subsection{Bellman ford}
+Bellman ford can take care of the negative cycles. To detect negative cycles we can run the algorithm one more time and see if the weight changes. 
+\begin{algorithm}
+	\floatname{algorithm}{Bellman ford}
+	\caption{(G, l, s)}
+	\begin{algorithmic}[1]
+		\For{all u in G.V}
+			\State dist(u) = INF
+			\State prev(u) = NIL
+		\EndFor		
+		\State dist(s) = 0
+		\For{V - 1 times}
+			\For{ all e in G.E}
+				\State dist(v) = min(dist(u), l(u, v))
+			\EndFor
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+
+\section{Common Problems}
+\section{Textbook solutions}
+
+\end{document}
